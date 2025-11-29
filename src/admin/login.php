@@ -23,10 +23,14 @@ if (isset($_SESSION['cashier_id'])) {
 <body class="bg-cyan-100">
     <?php include '../components/navbar.php'; ?>
 
-
     <div class="sm:mx-24 md:mx-48 lg:mx-72 mt-5">
-        <button class="ml-5 px-3 py-1 border-2 border-black rounded-4xl hover:bg-black hover:text-amber-50 duration-150 cursor-pointer select-none" onclick="window.location.href='../'">Return to Shopping</button>
-        <form onsubmit="loginUser(event)" class="flex flex-col mx-12 mt-5 p-3 rounded-xl bg-amber-50 space-y-3 drop-shadow-lg">
+        <button
+            class="ml-5 px-3 py-1 border-2 border-black rounded-4xl hover:bg-black hover:text-amber-50 duration-150 cursor-pointer select-none"
+            onclick="window.location.href='../'">Return to Shopping</button>
+        <form
+            x-data="cashierComponent()"
+            @submit.prevent="submitForm"
+            class="flex flex-col mx-12 mt-5 p-3 rounded-xl bg-amber-50 space-y-3 drop-shadow-lg">
             <h3 class="mt-2 text-center font-semibold text-2xl">
                 Admin Login
             </h3>
@@ -36,6 +40,7 @@ if (isset($_SESSION['cashier_id'])) {
                 <input
                     type="email"
                     id="emailField"
+                    x-model="loginForm.email"
                     name="email"
                     class="px-2 py-1 border"
                     required>
@@ -46,13 +51,18 @@ if (isset($_SESSION['cashier_id'])) {
                 <input
                     type="password"
                     id="passwordField"
+                    x-model="loginForm.password"
                     name="password"
                     class="px-2 py-1 border"
                     required>
             </div>
 
             <div class="flex mt-3 justify-end">
-                <input type="submit" class="px-3 py-1 border-2 border-black rounded-4xl hover:bg-black hover:text-amber-50 duration-150 cursor-pointer select-none" value="Login">
+                <button
+                    @click="loginCashier()"
+                    class="px-3 py-1 border-2 border-black rounded-4xl hover:bg-black hover:text-amber-50 duration-150 cursor-pointer select-none">
+                    Login
+                </button>
             </div>
         </form>
 
@@ -65,7 +75,7 @@ if (isset($_SESSION['cashier_id'])) {
     </div>
 
     <script src="../scripts/script.js"></script>
-    <script src="../scripts/loginCashier.js"></script>
+    <script src="../scripts/cashierComponent.js"></script>
 </body>
 
 </html>
