@@ -32,7 +32,7 @@ if (!isset($_SESSION['cashier_id'])) {
         <div id="mainSection" class="bg-amber-50">
             <span class="inventoryComponent" x-data="inventoryComponent()"><?php include 'components/inventory.php'; ?></span>
             <span class="cashiersComponent hidden" x-data="cashierComponent()"><?php include 'components/cashiersManagement.php'; ?></span>
-            <span class="transactionsComponent hidden"><?php include 'components/transactionHistory.php'; ?></span>
+            <span class="transactionsComponent hidden" x-data="transactionComponent()"><?php include 'components/transactionHistory.php'; ?></span>
         </div>
     </div>
 
@@ -46,6 +46,7 @@ if (!isset($_SESSION['cashier_id'])) {
     <script src="../scripts/addCashierModalHandler.js"></script>
     <script src="../scripts/inventoryComponent.js"></script>
     <script src="../scripts/cashierComponent.js"></script>
+    <script src="../scripts/transactionComponent.js"></script>
 </body>
 
 </html>
