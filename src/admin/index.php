@@ -23,16 +23,56 @@ if (!isset($_SESSION['cashier_id'])) {
 <body class="bg-cyan-100">
     <?php include '../components/navbar.php'; ?>
 
-    <div class="mx-5 mt-5">
+    <div
+        x-data="adminSections()"
+        class="mx-5 mt-5">
         <div class="space-x-1 print:hidden">
-            <button id="inventoryNavButton" onclick="showComponent(event, 'inventory')" class="px-3 py-1 bg-amber-50 hover:bg-amber-50 duration-150 cursor-pointer select-none">Inventory</button>
-            <button id="cashiersNavButton" onclick="showComponent(event, 'cashiers')" class="px-3 py-1 bg-amber-200 hover:bg-amber-50 duration-150 cursor-pointer select-none">Cashiers</button>
-            <button id="transactionsNavButton" onclick="showComponent(event, 'transactions')" class="px-3 py-1 bg-amber-200 hover:bg-amber-50 duration-150 cursor-pointer select-none">Transactions</button>
+            <button
+                @click="activeSection = 'inventory'"
+                class="px-3 py-1 bg-amber-50 hover:bg-amber-50 duration-150 cursor-pointer select-none"
+                :class="activeSection === 'inventory' ? 'bg-amber-50' : 'bg-amber-200'">
+                Inventory
+            </button>
+
+            <button
+                @click="activeSection = 'cashiers'"
+                class="px-3 py-1 bg-amber-50 hover:bg-amber-50 duration-150 cursor-pointer select-none"
+                :class="activeSection === 'cashiers' ? 'bg-amber-50' : 'bg-amber-200'">
+                Cashiers
+            </button>
+
+            <button
+                @click="activeSection = 'transactions'"
+                class="px-3 py-1 bg-amber-50 hover:bg-amber-50 duration-150 cursor-pointer select-none"
+                :class="activeSection === 'transactions' ? 'bg-amber-50' : 'bg-amber-200'">
+                Transactions
+            </button>
         </div>
+
         <div id="mainSection" class="bg-amber-50">
-            <span class="inventoryComponent" x-data="inventoryComponent()"><?php include 'components/inventory.php'; ?></span>
-            <span class="cashiersComponent hidden" x-data="cashierComponent()"><?php include 'components/cashiersManagement.php'; ?></span>
-            <span class="transactionsComponent hidden" x-data="transactionComponent()"><?php include 'components/transactionHistory.php'; ?></span>
+            <span
+                x-data="inventoryComponent()"
+                x-show="activeSection === 'inventory'"
+                x-transition:enter.duration.300ms
+                x-transition:leave.duration.0ms>
+                <?php include 'components/inventory.php'; ?>
+            </span>
+
+            <span
+                x-data="cashierComponent()"
+                x-show="activeSection === 'cashiers'"
+                x-transition:enter.duration.300ms
+                x-transition:leave.duration.0ms>
+                <?php include 'components/cashiersManagement.php'; ?>
+            </span>
+
+            <span
+                x-data="transactionComponent()"
+                x-show=" activeSection==='transactions'"
+                x-transition:enter.duration.300ms
+                x-transition:leave.duration.0ms>
+                <?php include 'components/transactionHistory.php'; ?>
+            </span>
         </div>
     </div>
 
@@ -40,8 +80,13 @@ if (!isset($_SESSION['cashier_id'])) {
     <script>
         const CURRENT_CASHIER_ID = "<?= $_SESSION['cashier_id'] ?>";
         const CURRENT_USER_ROLE = "<?= $_SESSION['user_role'] ?>";
+
+        function adminSections() {
+            return {
+                activeSection: 'inventory' // default active section
+            }
+        }
     </script>
-    <script src="../scripts/adminComponentHandler.js"></script>
     <script src="../scripts/addItemModalHandler.js"></script>
     <script src="../scripts/addCashierModalHandler.js"></script>
     <script src="../scripts/inventoryComponent.js"></script>
