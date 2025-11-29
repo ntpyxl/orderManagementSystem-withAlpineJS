@@ -1,13 +1,14 @@
-<?php 
+<?php
 session_start();
 
-if(!isset($_SESSION['cashier_id'])) {
+if (!isset($_SESSION['cashier_id'])) {
     header("Location: login.php");
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,9 @@ if(!isset($_SESSION['cashier_id'])) {
     <link href="../styles.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
+
 <body class="bg-cyan-100">
     <?php include '../components/navbar.php'; ?>
 
@@ -32,17 +35,18 @@ if(!isset($_SESSION['cashier_id'])) {
             <span class="transactionsComponent hidden"><?php include 'components/transactionHistory.php'; ?></span>
         </div>
     </div>
-    
+
     <span class="inventoryComponent"><?php include 'components/addItemModal.php'; ?></span>
     <span class="cashiersComponent"><?php include 'components/addCashierModal.php'; ?></span>
 
     <script src="../scripts/script.js"></script>
     <script>
-        const CURRENT_CASHIER_ID = "<?= $_SESSION['cashier_id']?>";
-        const CURRENT_USER_ROLE = "<?= $_SESSION['user_role']?>";
+        const CURRENT_CASHIER_ID = "<?= $_SESSION['cashier_id'] ?>";
+        const CURRENT_USER_ROLE = "<?= $_SESSION['user_role'] ?>";
     </script>
     <script src="../scripts/adminComponentHandler.js"></script>
     <script src="../scripts/manageInventory.js"></script>
     <script src="../scripts/manageCashiers.js"></script>
 </body>
+
 </html>

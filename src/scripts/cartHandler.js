@@ -1,96 +1,70 @@
-function addToCart(event) {
-	event.preventDefault();
+function cartComponent() {
+    return {
+		cart: [],
 
-	const formData = Object.fromEntries(new FormData(event.target).entries());
-	formData.itemPrice = parseInt(formData.itemPrice);
-	formData.itemQuantity = parseInt(formData.itemQuantity);
+        addToCart(item) {
+			item = {
+				itemId: item.item_id,
+				itemName: item.item_name,
+				itemPrice: item.price,
+				itemQuantity: item.quantity
+			}
 
-	if (!formData.itemQuantity || formData.itemQuantity <= 0) {
-		return;
-	}
+			if (!item.itemQuantity || item.itemQuantity <= 0) {
+					return;
+				}
 
-	const existingItem = cart.find(
-		(item) => item.itemName === formData.itemName
-	);
+			const existingItem = this.cart.find(
+				(cartItem) => cartItem.itemName === item.itemName
+			);
 
-	if (existingItem) {
-		existingItem.itemQuantity += formData.itemQuantity;
-	} else {
-		cart.push(formData);
-	}
+			if (existingItem) {
+				existingItem.itemQuantity += item.itemQuantity;
+			} else {
+				this.cart.push(item);
+				console.log("Cart updated:", this.cart);
+			}
+        },
 
-	updateCartDisplay();
-}
+		get totalAmount() {
+			return this.cart.reduce((sum, item) => sum + item.itemPrice * item.itemQuantity, 0);
+		},
 
-function clearCart(event) {
-	event.preventDefault();
+		clearCart() {
+			this.cart = [];
+			this.userPayAmount = null;
+		},
 
-	cart = [];
-	$("#userPayAmount").val("");
+		async checkOutCart(userPayAmount) {
+			if (!userPayAmount || userPayAmount <= 0) {
+				return;
+			}
 
-	updateCartDisplay();
-}
+			const totalAmount = this.cart.reduce((sum, item) => sum + item.itemPrice * item.itemQuantity, 0);
 
-async function checkOutCart(event) {
-	event.preventDefault();
+			if (userPayAmount >= totalAmount) {
+				try {
+					await apiRequest("checkOutCart", this.cart, "transactionManager");
 
-	const payAmount = parseInt($("#userPayAmount").val());
-
-	if (!payAmount || payAmount <= 0) {
-		return;
-	}
-
-	const total = cart.reduce(
-		(sum, item) => sum + item.itemPrice * item.itemQuantity,
-		0
-	);
-
-	if (payAmount >= total) {
-		const formData = cart;
-
-		try {
-			await apiRequest("checkOutCart", formData, "transactionManager");
-
-			Swal.fire({
-				title: "Thank you for purchasing from Pixelshop!",
-				text: `Your change is PHP ${payAmount - total}`,
-				icon: "success",
-				confirmButtonColor: "#14b8a6",
-			}).then(clearCart(event));
-		} catch (error) {
-			alertError(error);
+					Swal.fire({
+						title: "Thank you for purchasing from Pixelshop!",
+						text: `Your change is PHP ${userPayAmount - totalAmount}`,
+						icon: "success",
+						confirmButtonColor: "#14b8a6",
+					}).then(() => {
+						this.clearCart();
+					});
+				} catch (error) {
+					alertError(error);
+				}
+			} else {
+				Swal.fire({
+					title: "You have insufficient funds!",
+					text: `You are missing PHP ${totalAmount - userPayAmount}!`,
+					icon: "error",
+					confirmButtonColor: "#ef4444",
+				});
+			}
 		}
-	} else {
-		Swal.fire({
-			title: "You have insufficient funds!",
-			text: `You are missing PHP ${total - payAmount}!`,
-			icon: "error",
-			confirmButtonColor: "#ef4444",
-		});
-	}
-}
-
-function updateCartDisplay() {
-	$("#cartListBody").html(cart.map((item) => createItemRow(item)).join(""));
-
-	const total = cart.reduce(
-		(sum, item) => sum + item.itemPrice * item.itemQuantity,
-		0
-	);
-
-	$("#totalAmount").text(total.toFixed(2));
-}
-
-function createItemRow(item) {
-	return `
-        <div class="grid grid-cols-[7fr_2fr_3fr] px-1 py-1 gap-2 border-gray-500">
-            <span class="text-left">
-                ${item.itemName} @ ${item.itemPrice} PHP
-            </span>
-            <span class="text-center">x${item.itemQuantity}</span>
-            <span class="text-right">
-                ${item.itemPrice * item.itemQuantity} PHP
-            </span>
-        </div>
-    `;
+    };
 }

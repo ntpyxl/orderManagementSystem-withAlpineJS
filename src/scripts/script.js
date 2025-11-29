@@ -1,5 +1,4 @@
 const BASE_URL = `${window.location.origin}/orderManagementSystem/src/`;
-let cart = [];
 
 async function apiRequest(action, data, api) {
 	const response = await fetch(`${BASE_URL}/api/${api}.php`, {
