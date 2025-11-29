@@ -44,7 +44,7 @@ function inventoryComponent() {
             }
         },
 
-        async submitForm() {
+        async addItem() {
 			const formData = {};
 			formData.itemName = this.form.itemName;
 			formData.itemPrice = this.form.itemPrice;

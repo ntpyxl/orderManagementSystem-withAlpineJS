@@ -11,7 +11,7 @@
     class="flex flex-row flex-wrap mx-12 mt-8 justify-center">
     <!-- Loading State -->
     <template x-if="loading">
-        <p class="text-gray-500 text-center">Loading items...</p>
+        <p class="text-gray-500 text-center">Loading inventory...</p>
     </template>
 
     <!-- Error State -->
@@ -21,7 +21,7 @@
 
     <!-- No Results -->
     <template x-if="!loading && !error && items.length === 0">
-        <p class="text-gray-500 text-center">No records found</p>
+        <p class="text-gray-500 text-center">No items found</p>
     </template>
 
     <!-- Inventory List -->
@@ -41,11 +41,12 @@
     </template>
 </div>
 
+
+
 <div
     id="inventoryAddItemModal"
     class="hidden fixed inset-0 z-20 bg-black/50 backdrop-blur-sm justify-center items-center">
-    <div
-        class="bg-white px-6 py-4 rounded-2xl shadow-xl text-center relative">
+    <div class="bg-white px-6 py-4 rounded-2xl shadow-xl text-center relative">
         <h2 class="text-xl font-semibold mb-2">Cashier - Add Item</h2>
         <div class="border rounded-2xl p-6">
             <form
@@ -102,7 +103,7 @@
         <div class="flex mt-3 justify-end gap-3">
             <button
                 id="inventoryAddItemSubmitButton"
-                @click="submitForm()"
+                @click="addItem()"
                 class="px-3 py-1 border-2 border-black rounded-4xl hover:bg-black hover:text-amber-50 duration-150 cursor-pointer select-none">
                 Submit
             </button>

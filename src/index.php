@@ -23,7 +23,7 @@
                 class="flex flex-row flex-wrap mx-12 mt-8 justify-center">
                 <!-- Loading State -->
                 <template x-if="loading">
-                    <p class="text-gray-500 text-center">Loading items...</p>
+                    <p class="text-gray-500 text-center">Loading inventory...</p>
                 </template>
 
                 <!-- Error State -->
@@ -33,7 +33,7 @@
 
                 <!-- No Results -->
                 <template x-if="!loading && !error && items.length === 0">
-                    <p class="text-gray-500 text-center">No records found</p>
+                    <p class="text-gray-500 text-center">No items found</p>
                 </template>
 
                 <!-- Inventory List -->
