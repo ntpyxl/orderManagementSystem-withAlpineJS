@@ -30,13 +30,12 @@ if (!isset($_SESSION['cashier_id'])) {
             <button id="transactionsNavButton" onclick="showComponent(event, 'transactions')" class="px-3 py-1 bg-amber-200 hover:bg-amber-50 duration-150 cursor-pointer select-none">Transactions</button>
         </div>
         <div id="mainSection" class="bg-amber-50">
-            <span class="inventoryComponent"><?php include 'components/inventory.php'; ?></span>
+            <span class="inventoryComponent" x-data="inventoryComponent()"><?php include 'components/inventory.php'; ?></span>
             <span class="cashiersComponent hidden"><?php include 'components/cashiersManagement.php'; ?></span>
             <span class="transactionsComponent hidden"><?php include 'components/transactionHistory.php'; ?></span>
         </div>
     </div>
 
-    <span class="inventoryComponent"><?php include 'components/addItemModal.php'; ?></span>
     <span class="cashiersComponent"><?php include 'components/addCashierModal.php'; ?></span>
 
     <script src="../scripts/script.js"></script>
@@ -45,7 +44,8 @@ if (!isset($_SESSION['cashier_id'])) {
         const CURRENT_USER_ROLE = "<?= $_SESSION['user_role'] ?>";
     </script>
     <script src="../scripts/adminComponentHandler.js"></script>
-    <script src="../scripts/manageInventory.js"></script>
+    <script src="../scripts/addItemModalHandler.js"></script>
+    <script src="../scripts/inventoryComponent.js"></script>
     <script src="../scripts/manageCashiers.js"></script>
 </body>
 

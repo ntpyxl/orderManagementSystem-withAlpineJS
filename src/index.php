@@ -75,9 +75,8 @@
         <?php include 'components/shoppingCart.php'; ?>
     </div>
 
-
     <script src="scripts/script.js"></script>
-    <script src="scripts/loadInventory.js"></script>
+    <script src="scripts/inventoryComponent.js"></script>
     <script src="scripts/cartHandler.js"></script>
 </body>
 
