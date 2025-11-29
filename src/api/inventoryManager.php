@@ -30,6 +30,15 @@ if (isset($_POST['action']) && $_POST['action'] === 'uploadItemImage') {
         $newFileName = $uniqueID . "." . $fileFormat;
 
         $imagesDirectory = "../images/";
+
+        if (!is_dir($imagesDirectory)) {
+            if (!mkdir($imagesDirectory, 0777, true)) {
+                http_response_code(500);
+                echo json_encode(['success' => false, 'message' => 'Failed to create directory.']);
+                exit;
+            }
+        }
+
         $targetPath = $imagesDirectory . $newFileName;
 
         if (move_uploaded_file($tempName, $targetPath)) {
@@ -49,7 +58,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'uploadItemImage') {
 }
 
 
-if($action == "getInventoryItems") {
+if ($action == "getInventoryItems") {
     $search = '%' . ($input['search'] ?? '') . '%';
     $statement = $pdo->prepare(
         'SELECT * FROM inventory ORDER BY item_name ASC'
