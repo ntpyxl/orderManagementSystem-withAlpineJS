@@ -1,4 +1,4 @@
-const BASE_URL = `${window.location.origin}/orderManagementSystem/src/`;
+const BASE_URL = `${window.location.origin}/orderManagementSystem-withAlpineJS/src/`;
 
 async function apiRequest(action, data, api) {
 	const response = await fetch(`${BASE_URL}/api/${api}.php`, {
